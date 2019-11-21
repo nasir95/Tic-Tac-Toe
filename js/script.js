@@ -26,23 +26,23 @@ const KEY = {
 let turn, winner, gameboard;
 
 
-// We need to cache elemnet references 
+// Need to cache elemnet references 
 
 const squares = document.querySelectorAll('.square');
 const message = document.querySelector('#message');
 
-// Define our process
+// Define my process
 
 // Add event listeners
 document.querySelector('#gameboard').addEventListener('click', handleClick);
 document.querySelector('#reset').addEventListener('click', init);
 
 
-// This is where we start or restart our game
+// This is where I start or restart the game
 init(); // Call the function to start the game
 
 function init() {
-    winner = false; // we don't have a winner - starting from zero
+    winner = false; // don't have a winner - starting from zero
     turn = 1;
     gameboard = [null, null, null, null, null, null, null, null, null];
     render();
@@ -51,10 +51,13 @@ function init() {
 function handleClick(evt){
     // Assign clicked square to a variable
     const selectedIndex = parseInt(evt.target.dataset.index);
-    if(gameboard[selectedIndex]) return;
+    if(gameboard[selectedIndex] || winner) return;
     gameboard[selectedIndex] = turn;
     turn *= -1;
+    winner = checkWinner();
+    console.log(winner);
     render();
+    
 };
 
 function render(){
@@ -63,8 +66,24 @@ function render(){
         
     });
     message.textContent = `${KEY[turn]}'s Turn`;
+    if(winner == 1){
+        message.textContent = `X Wins!`;
+    }else if(winner == -1){
+        message.textContent = 'O Wins!';
+    }
+    if(winner == 'T'){
+        message.textContent = 'Tie Game';
+    }
 }
 
-
+function checkWinner(){
+    for(let i = 0; i < COMBOS.length; i++){
+        if(Math.abs(gameboard[COMBOS[i][0]] + 
+                    gameboard[COMBOS[i][1]] + 
+                    gameboard[COMBOS[i][2]]) === 3) return gameboard[COMBOS[i][0]];
+        }      
+        if(gameboard.includes(null)) return false;
+        return 'T';
+}
 
 
