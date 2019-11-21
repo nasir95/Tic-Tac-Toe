@@ -45,11 +45,13 @@ function init() {
     winner = false; // we don't have a winner - starting from zero
     turn = 1;
     gameboard = [null, null, null, null, null, null, null, null, null];
+    render();
 }
 
 function handleClick(evt){
     // Assign clicked square to a variable
     const selectedIndex = parseInt(evt.target.dataset.index);
+    if(gameboard[selectedIndex]) return;
     gameboard[selectedIndex] = turn;
     turn *= -1;
     render();
@@ -58,7 +60,9 @@ function handleClick(evt){
 function render(){
     gameboard.forEach(function(elem, index) {
         squares[index].textContent = KEY[elem];
+        
     });
+    message.textContent = `${KEY[turn]}'s Turn`;
 }
 
 
