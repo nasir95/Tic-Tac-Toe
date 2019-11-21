@@ -37,6 +37,7 @@ const message = document.querySelector('#message');
 document.querySelector('#gameboard').addEventListener('click', handleClick);
 document.querySelector('#reset').addEventListener('click', init);
 
+
 // This is where we start or restart our game
 init(); // Call the function to start the game
 
@@ -51,5 +52,15 @@ function handleClick(evt){
     const selectedIndex = parseInt(evt.target.dataset.index);
     gameboard[selectedIndex] = turn;
     turn *= -1;
+    render();
 };
+
+function render(){
+    gameboard.forEach(function(elem, index) {
+        squares[index].textContent = KEY[elem];
+    });
+}
+
+
+
 
